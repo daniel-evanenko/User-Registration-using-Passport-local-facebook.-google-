@@ -1,0 +1,26 @@
+{
+  "name": "passport-local-google-facebook",
+  "version": "1.0.0",
+  "description": "register using passport local\\google\\facebook",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Evanenko",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "connect-mongo": "^4.6.0",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-router": "^0.0.1",
+    "express-session": "^1.17.3",
+    "mongoose": "^6.5.2",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7"
+  }
+}
