@@ -6,12 +6,12 @@
   }
   
  
-  
-  .btn-facebook {
+  /* .btn-facebook {
     color: white !important;
     background-color: #3b5998;
-  }
+  } */
   
+  .fa-facebook, .fa-facebook-square { color: #3b5998; }
   .fa-google {
     background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
     -webkit-background-clip: text;
