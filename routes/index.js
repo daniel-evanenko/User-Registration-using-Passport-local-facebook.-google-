@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const router = require('express').Router()
 const UserModel = require('../models/User')
 const passport = require('passport')
-
+const { check, validationResult} = require('express-validator')
 router.get('/login' , (req , res)=>{
     res.render('Login')
 })
@@ -17,21 +17,55 @@ router.post('/login', passport.authenticate('local', {
     failureRedirect: '/login'
   }));
 
-router.post('/register', async (req,res)=>{
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        const newUser = new UserModel({
-            username: req.body.username,
-            email: req.body.email,
-            password: hashedPassword
+
+  router.post('/register', [
+    check('username', 'This username must me 3+ characters long')
+        .exists()
+        .isLength({ min: 3 }),
+    check('email', 'Email is not valid')
+        .isEmail()
+        .normalizeEmail()
+], (req, res)=> {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+        // return res.status(422).jsonp(errors.array())
+        const alert = errors.array()
+        res.render('register', {
+            alert
         })
-        newUser.save().then(newUser => console.log(newUser))
-        res.send({succsess : true})
-    } catch (error) {
-        console.log(error)
-        res.redirect('/register')
     }
 })
+
+// router.post('/register', [
+    
+//     check('username', 'This username must be more then 3 charecters long')
+//     .exists()
+//     .isLength({min : 3})
+
+// ],
+//  async (req,res)=>{
+
+//     const errors = validationResult(req)
+//     if(!errors.isEmpty()){
+//         //return res.status(422).jsonp(errors.array())
+//         const alert = errors.array()
+        
+//         res.render('/register', alert)
+//     }
+//     // try {
+//     //     const hashedPassword = await bcrypt.hash(req.body.password, 10)
+//     //     const newUser = new UserModel({
+//     //         username: req.body.username,
+//     //         email: req.body.email,
+//     //         password: hashedPassword
+//     //     })
+//     //     newUser.save().then(newUser => console.log(newUser))
+//     //     res.send({succsess : true})
+//     // } catch (error) {
+//     //     console.log(error)
+//     //     res.redirect('/register')
+//     // }
+// })
 
 
 router.get('/logout',(req,res)=>{

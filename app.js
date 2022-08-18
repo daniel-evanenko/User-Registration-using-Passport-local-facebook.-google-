@@ -7,7 +7,6 @@ const connectDB = require('./server/database/connection');
 const bodyParser = require('body-parser')
 const MongoStore = require('connect-mongo')
 const passport = require('passport')
-
 const app = express();
 
 // load config
@@ -49,6 +48,7 @@ app.use(passport.session())
 
 // Static folder
 app.use(express.static(path.join(__dirname, 'public')))
+app.set('views', path.join(__dirname, "views"));
 
 // routes
 app.use('/',require('./routes/index'))

@@ -15,10 +15,17 @@
         <div class="col-lg-10 col-xl-9 mx-auto">
           <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
             <div class="card-img-left d-none d-md-flex">
-              <!-- Background image for card set in CSS! -->
             </div>
             <div class="card-body p-4 p-sm-5">
               <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
+              <% if(typeof alert != 'undefined') { %>
+                <% alert.forEach(function(error) { %>
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <%= error.msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                <% }) %>
+            <% } %>
               <form action="/register" method="post">
   
                 <div class="form-floating mb-3">
