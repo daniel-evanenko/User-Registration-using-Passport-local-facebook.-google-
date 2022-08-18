@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const router = require('express').Router()
 const UserModel = require('../models/User')
 const passport = require('passport')
-const { check, validationResult} = require('express-validator')
+const { check, validationResult, body} = require('express-validator')
 router.get('/login' , (req , res)=>{
     res.render('Login')
 })
@@ -18,13 +18,27 @@ router.post('/login', passport.authenticate('local', {
   }));
 
 
+
+
+
+
+
+
   router.post('/register', [
     check('username', 'This username must me 3+ characters long')
         .exists()
         .isLength({ min: 3 }),
     check('email', 'Email is not valid')
         .isEmail()
-        .normalizeEmail()
+        .normalizeEmail(),
+        body('email').custom(value => {
+            return UserModel.findOne({email: value}).then(user => {
+              if (user) {
+                return Promise.reject('E-mail already in use');
+              }
+            });
+          })
+
 ], (req, res)=> {
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
