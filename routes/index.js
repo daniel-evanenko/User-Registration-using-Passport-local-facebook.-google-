@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt')
 const router = require('express').Router()
 const UserModel = require('../models/User')
 const passport = require('passport')
+
+
 const { check, validationResult, body} = require('express-validator')
 router.get('/login' , (req , res)=>{
     res.render('Login')
@@ -25,7 +27,7 @@ router.post('/login', passport.authenticate('local', {
 
 
   router.post('/register', [
-    check('username', 'This username must me 3+ characters long')
+    check('username', 'This username must be more than 3 characters long')
         .exists()
         .isLength({ min: 3 }),
     check('email', 'Email is not valid')
@@ -39,7 +41,20 @@ router.post('/login', passport.authenticate('local', {
             });
           })
 
-], (req, res)=> {
+],  
+check('password', 'Password must be more then 8 charecters long')
+.isLength({min: 8})
+.matches('^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).*$')
+.withMessage('Password must have at least one lowercase, at least one uppercase, at least one digit'),
+body('passwordConfirm').custom((value, { req }) => {
+  if (value !== req.body.password) {
+    throw new Error('Password confirmation does not match password');
+  }
+
+  // Indicates the success of this synchronous custom validator
+  return true;
+})
+ ,(req, res)=> {
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
         // return res.status(422).jsonp(errors.array())
