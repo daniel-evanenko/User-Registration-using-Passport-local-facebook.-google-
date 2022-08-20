@@ -44,10 +44,11 @@ router.post('/register', registerSchema,
 
     const errors = validationResult(req)
     if(!errors.isEmpty()){
-        //return res.status(422).jsonp(errors.array())
         const alert = errors.array()
-        
-         res.render('register', {
+        console.log('error')
+        //return res.status(422)
+
+         return res.render('register', {
              alert
          })
     }
